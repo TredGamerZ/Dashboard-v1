@@ -1,0 +1,33 @@
+<p>
+  mycourses works!
+</p>
+<div class="flex-container">
+  <div *ngFor="let item of mycourses" class="thumbnail card">
+  <button class="btn  btn-success btn-block" >
+      <h4>{{item.Code.toString()}}</h4>
+  </button>
+    <hr >
+    <p><b>{{item.ID.toString()}}</b></p>
+
+      <p> {{item.description.toString()}}</p>
+
+  </div>
+  <div class="thumbnail card">
+    <button (click)="toggleThis()" class="btn btn-primary btn-block">
+      <h4>+ Add Courses</h4>
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="showAllCourse">
+  <p>All Courses</p>
+  <div class="container-fluid">
+    <div class="col-md-2" *ngFor="let item of allcourses">
+      <div class="container-fluid">
+        <h3>{{item.ID.toString()}}</h3>
+        <p>Teacher name</p>
+        <button class="btn btn-primary btn-sm" id="{{item.ID.toString()}}" (click)="onAddCourse(item.ID.toString())">+ Add</button>
+      </div>
+    </div>
+  </div>
+</div>

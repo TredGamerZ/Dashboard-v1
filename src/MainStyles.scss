@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald:400,700');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i');
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,700');
+*{
+  font-family:'Raleway',sans-serif;
+}
+
+$font-bold: 'Oswald',sans-serif;
+$font-italics: 'Playfair Display',sans-serif;
+
+.grid{
+  width: 100%;
+}
+.d-wrapper{
+
+}
+.d-profile{
+  //width:30%;
+
+}
+.d-courses{
+  //width:60%;
+
+}
+.d-announce{
+  //width: 30%;
+
+
+}
+.fbold{
+  font-weight: lighter;
+
+}
+body {
+  background: #e2e1e0;
+  text-align: center;
+}
+
+.grid-item {
+  padding: 15px;
+
+  background: #fff;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+
+}
+
