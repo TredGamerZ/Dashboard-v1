@@ -16,6 +16,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'about',      component: AboutComponent },
   { path: 'dashboard',      component: DashboardComponent },
+  { path: 'course',      component: CoursepageComponent },
   // {
   //   path: 'heroes',
   //   component: HeroListComponent,
