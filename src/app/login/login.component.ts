@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  model = new userStudent('','','','','','');
+  model = new userStudent('','','','',0,[]);
   studentCheck:boolean;
   facultyCheck:boolean;
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    if(this.loginService.studentLogin(this.model.roll,this.model.pass)){
+    if(this.loginService.studentLogin(this.model.rollno,this.model.password)){
         alert('Logged In');
       this.router.navigate(['/dashboard']);
     }

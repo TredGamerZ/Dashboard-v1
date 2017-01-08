@@ -3,6 +3,7 @@ import {Course} from "../models/course";
 import {CourseService} from "../services/course.service";
 import {UserService} from "../services/user.service";
 import {userStudent} from "../models/student";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-mycourses',
@@ -17,7 +18,7 @@ export class MycoursesComponent implements OnInit {
   user:userStudent;
   showAllCourse:boolean = false;
 
-  constructor(private courseService:CourseService,private userService:UserService) {
+  constructor(private courseService:CourseService,private userService:UserService,    private router: Router) {
 
     this.user = this.userService.getDetails();
     this.allcourses = courseService.getAllCourses();
@@ -35,6 +36,9 @@ export class MycoursesComponent implements OnInit {
     this.mycourses.push(mc);
     this.userService.addCourse(id);
 
+  }
+  onCourse(id:string):void{
+    this.router.navigate(['/course', id] );
   }
   ngOnInit() {
   }

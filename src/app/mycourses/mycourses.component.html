@@ -3,7 +3,7 @@
 </p>
 <div class="flex-container">
   <div *ngFor="let item of mycourses" class="thumbnail card">
-  <button class="btn  btn-success btn-block" >
+  <button class="btn  btn-success btn-block" (click)="onCourse(item.ID.toString())">
       <h4>{{item.Code.toString()}}</h4>
   </button>
     <hr >
