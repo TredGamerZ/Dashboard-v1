@@ -18,16 +18,16 @@ export class MycoursesComponent implements OnInit {
   user:userStudent;
   showAllCourse:boolean = false;
 
-  constructor(private courseService:CourseService,private userService:UserService,    private router: Router) {
+  constructor(private courseService:CourseService,private userService:UserService, private router: Router) {
 
     this.user = this.userService.getDetails();
     this.allcourses = courseService.getAllCourses();
     this.mycourses = courseService.getMyCourses(this.user.coursesArray);
-
+    console.log(this);
   }
 
    toggleThis(bool: boolean) {
-    this.showAllCourse = this.showAllCourse!= true;
+    this.showAllCourse = !this.showAllCourse;
 
   }
   onAddCourse(id:string):void{

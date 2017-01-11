@@ -38,8 +38,7 @@
             </div>
             <div class="well">
               <div class="embed-responsive embed-responsive-16by9">
-                <iframe width="1280" height="720" src="https://www.youtube.com/embed/zpOULjyy-n8" frameborder="0" allowfullscreen></iframe>
-              </div>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/sv2Ps1rOFAI" frameborder="0" allowfullscreen></iframe>              </div>
               <b><h4 class="text-right">@teacher</h4></b>
             </div>
             <div class="well">
@@ -61,7 +60,10 @@
             <h3>Assignment Name</h3>
             <p>Due Date</p>
             <button class="btn btn-info btn-sm">Submit</button>
+            <button class="btn btn-sm">Download</button>
           </div>
+          <app-assignment *ngFor="let item of assignments" [assignment] = "item">
+          </app-assignment>
         </div>
   </div>
 </div>

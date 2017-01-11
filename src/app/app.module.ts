@@ -11,6 +11,8 @@ import { AboutComponent } from './about/about.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MycoursesComponent } from './mycourses/mycourses.component';
 import { CoursepageComponent } from './coursepage/coursepage.component';
+import { AssignmentComponent } from './assignment/assignment.component';
+import {FileDropDirective} from "ng2-file-upload";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -37,7 +39,9 @@ const appRoutes: Routes = [
     AboutComponent,
     DashboardComponent,
     MycoursesComponent,
-    CoursepageComponent
+    CoursepageComponent,
+    AssignmentComponent,
+    FileDropDirective
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
