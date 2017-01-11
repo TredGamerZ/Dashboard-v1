@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {userStudent} from "../models/student";
+// import {userStudent} from "../models/student";
 import {LoginService} from "../services/login.service";
 import {Router} from "@angular/router";
+import {User} from "../models/user";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  model = new userStudent('','','','',0,[]);
+  model:User;
   studentCheck:boolean;
   facultyCheck:boolean;
 
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    if(this.loginService.studentLogin(this.model.rollno,this.model.password)){
+    if(this.loginService.studentLogin(this.model.username,this.model.password)){
         alert('Logged In');
       this.router.navigate(['/dashboard']);
     }

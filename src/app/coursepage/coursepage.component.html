@@ -1,13 +1,28 @@
 
 <div class="container-fluid">
-  <div class="grid-item">
+  <div class="row">
+    <div class="well">
+      <div class="container" >
+        <button class="btn btn-success" (click)="loginTeacher()">Login As A Teacher</button>
+        <button class="btn btn-primary" (click)="loginStudent()">Login As A Student</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid-item" *ngIf="loggedIn">
     <div class="container-fluid text-left">
        <div class="col-md-3">
-         <h1>BT123</h1> <h4>Teacher Name<br><small>id123</small></h4>
+         <h1>{{mCourseBoard.courseId.toString()}}</h1> <h4>Teacher Name<br><small>id123</small></h4>
          <div class="thumbnail">
            <div class="container-fluid ">
               <h3>Announcements</h3>
              <hr>
+             <div class="input-group" *ngIf="mUser.type">
+               <input type="text" class="form-control" #announce placeholder="Make An Announcement">
+               <span class="input-group-btn">
+
+                <button class="btn btn-default" type="button" (click)="makeAnnouncement(announce.value)">Send</button>
+              </span>
+             </div><!-- /input-group -->
              <div class="list-group text-left">
                <a class="list-group-item ">
 
@@ -25,29 +40,40 @@
        </div>
       <div class="col-md-6">
         <ul class="nav nav-tabs">
-          <li role="presentation" class="active"><a href="#">Disscussions</a></li>
-          <li role="presentation"><a href="#">Descripton</a></li>
-          <li role="presentation"><a href="#">Course Structrue</a></li>
+          <li role="presentation" class="active"><a (click)="toggleThis(2)">Disscussions</a></li>
+          <li role="presentation" ><a (click)="toggleThis(1)" >Descripton</a></li>
+          <li role="presentation"><a (click)="toggleThis(3)">Course Structrue</a></li>
         </ul>
-        <div class="thumbnail text-center">
+        <div class="thumbnail text-center" *ngIf="disscussion" >
           <h2><b>Messages</b></h2>
+          <div class="container-fluid message-container">
+            <div class="input-group">
+              <input type="text" class="form-control" #message placeholder="Drop Message">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" (click)="dropMessage(message.value)">Go!</button>
+              </span>
+            </div><!-- /input-group -->
+            <div [innerHTML]="item.message | safeHtml" class="well" *ngFor="let item of messages ">
+                          <!--{{item.message}}-->
+              <b><h4 class="text-right">@{{item.id}} {{item.courseId}}</h4></b>
+            </div>
+        </div>
+        </div>
+          <div class="thumbnail text-center" *ngIf="discription" >
+          <h2><b>Course Discription</b></h2>
           <div class="container-fluid">
-            <div class="well">
-              Wrap any text and an optional dismiss button in .alert and one of the four contextual classes (e.g., .alert-success) for basic alert messages.
-              <b><h4 class="text-right">@teacher</h4></b>
-            </div>
-            <div class="well">
-              <div class="embed-responsive embed-responsive-16by9">
-                <iframe width="1280" height="720" src="https://www.youtube.com/embed/zpOULjyy-n8" frameborder="0" allowfullscreen></iframe>
-              </div>
-              <b><h4 class="text-right">@teacher</h4></b>
-            </div>
-            <div class="well">
-            Wrap any text and an optional dismiss button in .alert and one of the four contextual classes (e.g., .alert-success) for basic alert messages.
-            <b><h4 class="text-right">@teacher</h4></b>
+             <p>{{mCourseBoard.description}}</p>
           </div>
         </div>
-      </div>
+        <div class="thumbnail text-center" *ngIf="courseStructure" >
+          <h2><b>Course Discription</b></h2>
+          <div class="container-fluid">
+             <p>{{mCourseBoard.description}}</p>
+          </div>
+        </div>
+
+
+
     </div>
       <div class="col-md-3">
         <ul class="nav nav-pills">

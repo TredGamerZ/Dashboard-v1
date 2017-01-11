@@ -13,6 +13,7 @@ export class CourseService {
   }
 
   getMyCourses(courseArray:Array<string>):Array<Course>{
+    this.mMyCourses = [];
     for(let i:number=0; i<this.mAllCourses.length;i++){
       for(let j:number=0;j<courseArray.length;j++){
         if(this.mAllCourses[i].ID.toString()==courseArray[j]){

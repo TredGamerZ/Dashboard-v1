@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
+import {NgModule, Pipe, PipeTransform} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -29,6 +29,14 @@ const appRoutes: Routes = [
   // { path: '**', component: PageNotFoundComponent }
 ];
 
+@Pipe({ name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform  {
+  constructor(private sanitized: DomSanitizer) {}
+  transform(value) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +45,8 @@ const appRoutes: Routes = [
     AboutComponent,
     DashboardComponent,
     MycoursesComponent,
-    CoursepageComponent
+    CoursepageComponent,
+    SafeHtmlPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

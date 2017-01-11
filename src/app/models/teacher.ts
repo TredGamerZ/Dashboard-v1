@@ -1,11 +1,10 @@
+import {User} from "./user";
 /**
  * Created by m on 1/7/2017.
  */
-export class Teacher{
+export class Teacher extends User{
 
-  id:string;
+  courses:string[];
   department:string;
-  name:string;
-  details:string;
 
 }

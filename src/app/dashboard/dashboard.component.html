@@ -3,21 +3,47 @@
   <!--<div class="col-md-3"  id="sidebar">-->
       <!---->
   <!--</div>-->
-<div class="row "  >
+  <div class="row">
+    <div class="well">
+      <div class="container" >
+        <button class="btn btn-success" (click)="loginTeacher()">Login As A Teacher</button>
+        <button class="btn btn-primary" (click)="loginStudent()">Login As A Student</button>
+      </div>
+    </div>
+  </div>
+<div class="row "  *ngIf="loggedIn">
 
 
 
 <div class="col-md-8">
   <div class="thumbnail d-wrapper grid-item d-courses text-left">
     <h3 class="fbold ">My Courses</h3>
-    <app-mycourses></app-mycourses>
+    <app-mycourses [user]="mUser"></app-mycourses>
 </div>
 </div>
 
   <div class="col-md-4" style="padding-left: 0px">
     <div class="thumbnail grid-item d-wrapper d-profile">
       <h3>Profile</h3>
-    </div>
+      <hr>
+
+        <img class="img-circle img-responsive" src="{{mUser.imgUrl}}" width="50px">
+        <h3>
+
+            {{mUser.username}}
+
+
+        </h3><h3>
+
+            {{mUser.id}}
+
+
+        </h3>
+        <h3>
+          {{mUser.type}}
+        </h3>
+      </div>
+
   </div>
 
 

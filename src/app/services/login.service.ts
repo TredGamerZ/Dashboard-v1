@@ -6,7 +6,7 @@ export class LoginService {
    loggedIn:boolean;
 
   studentLogin(rollno: string, pass:string):boolean{
-    if(rollno == "835BT15" && pass== "pass")
+    if(rollno == "student" && pass== "student")
     {
       this.loggedIn = true;
       return true;
@@ -16,11 +16,14 @@ export class LoginService {
     //TODO: connect with express and do actual login + add cookies
   };
   facultyLogin(name:string,pass:string):boolean{
-    if(name == "tanmay" && pass =="pass" ){
-      return true
+    if(name == "teacher" && pass =="teacher" ){
+      this.loggedIn = true;
+
+      return true;
+
     }
     else
-      return false
+      return false;
     //TODO: connect with express and do actual login + add cookies
   };
 
