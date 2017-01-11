@@ -1,0 +1,15 @@
+<div class="panel-body">
+  <h3>{{assignment.title}}</h3>
+  <p>{{assignment.date| date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+  <p>{{assignment.dueDate.getTime() - cur.getTime() | date: 'HH:mm:ss'}}</p>
+  <div ng2FileDrop
+       [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+       (fileOver)="fileOverBase($event)"
+       [uploader]="uploader"
+       class="well my-drop-zone">
+    Base drop zone
+  </div>
+  <p>{{uploader.queue[0]?._file.name}}</p>
+  <button class="btn btn-info btn-sm">Submit</button>
+  <button class="btn btn-sm">Download</button>
+</div>

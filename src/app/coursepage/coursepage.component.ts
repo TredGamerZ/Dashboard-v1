@@ -6,12 +6,15 @@ import {Message} from "../models/message";
 import {User} from "../models/user";
 import {UserService} from "../services/user.service";
 
+import {AssignmentService} from "../services/assignment.service";
+import {Assignment} from "../models/Assignment";
+
 
 @Component({
   selector: 'app-coursepage',
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css'],
-  providers:[CourseboardService,UserService],
+  providers:[CourseboardService,UserService,AssignmentService],
 
 })
 
@@ -25,8 +28,8 @@ export class CoursepageComponent implements OnInit {
   courseStructure:boolean= false;
   disscussion:boolean= true;
   cid:string;
-
-  constructor(private route: ActivatedRoute,private cbs:CourseboardService,private userService:UserService) {
+  assignments: Assignment[];
+  constructor(private route: ActivatedRoute,private cbs:CourseboardService,private userService:UserService,private assignmentService:AssignmentService) {
 
   }
   loginTeacher(){
@@ -48,6 +51,8 @@ export class CoursepageComponent implements OnInit {
   ngOnInit() {
     this.cid = this.route.snapshot.params['id'];
     // this.cbs = new CourseboardService(id+'');
+    this.assignments = this.assignmentService.getAssignments(this.cid);
+
     this.cbs.startService(this.cid);
     this.mCourseBoard = this.cbs.getObject();
     this.messages = this.mCourseBoard.boardMesssage;

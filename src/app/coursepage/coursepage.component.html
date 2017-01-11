@@ -87,7 +87,10 @@
             <h3>Assignment Name</h3>
             <p>Due Date</p>
             <button class="btn btn-info btn-sm">Submit</button>
+            <button class="btn btn-sm">Download</button>
           </div>
+          <app-assignment *ngFor="let item of assignments" [assignment] = "item">
+          </app-assignment>
         </div>
   </div>
 </div>

@@ -29,7 +29,7 @@ export class CourseService {
     for(let i:number=0; i<this.mAllCourses.length;i++){
       if(this.mAllCourses[i].ID == id )
       {
-        mc = this.mAllCourses[i]
+        mc = this.mAllCourses[i];
         return mc;
 
       }
@@ -40,7 +40,7 @@ export class CourseService {
   constructor() {
 
 
-    for(var i:number =1 ; i<10 ;i++){
+    for(let i:number =1 ; i<10 ;i++){
       let newcourse: Course = new Course('BT20'+i,'ID10'+i,'Nunc sed urna condimentum, ');
       this.mAllCourses.push(newcourse);
     }
