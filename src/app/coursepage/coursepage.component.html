@@ -82,17 +82,34 @@
           <!--<li role="presentation"><a href="#">Messages</a></li>-->
         </ul>
         <hr>
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h3>Assignment Name</h3>
-            <p>Due Date</p>
-            <button class="btn btn-info btn-sm">Submit</button>
-            <button class="btn btn-sm">Download</button>
+        <div class="panel panel-default"  >
+          <div class="panel-body" *ngIf="!mUser.type " >
+            <!--<h3>Assignment Name</h3>-->
+            <!--<p>Due Date</p>-->
+            <!--<button class="btn btn-info btn-sm">Submit</button>-->
+            <!--<button class="btn btn-sm">Download</button>-->
+
+          <app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" >
+          </app-assignment >
+        </div>
+          <h3>Add Assignments</h3>
+          <div class="panel-body" *ngIf="mUser.type" >
+            <div class="thumbnail">
+
+            </div>
+            <app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" (onEdit)="onEdit($event)" (onDelete)="onDelete($event)">
+            </app-assignment >
           </div>
-          <app-assignment *ngFor="let item of assignments" [assignment] = "item">
-          </app-assignment>
+
         </div>
   </div>
 </div>
   </div>
 </div>
+
+
+
+
+
+
+<!---->

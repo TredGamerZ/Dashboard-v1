@@ -1,13 +1,15 @@
-import {Component, OnInit, PipeTransform, Pipe} from '@angular/core';
+import {Component, OnInit, PipeTransform, Pipe, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CourseboardService} from "../services/courseboard.service";
 import {Board} from "../models/board";
 import {Message} from "../models/message";
 import {User} from "../models/user";
 import {UserService} from "../services/user.service";
-
+// ModalModule
 import {AssignmentService} from "../services/assignment.service";
 import {Assignment} from "../models/Assignment";
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 
 @Component({
@@ -29,8 +31,14 @@ export class CoursepageComponent implements OnInit {
   disscussion:boolean= true;
   cid:string;
   assignments: Assignment[];
-  constructor(private route: ActivatedRoute,private cbs:CourseboardService,private userService:UserService,private assignmentService:AssignmentService) {
-
+  constructor(private route: ActivatedRoute,
+              private cbs:CourseboardService,
+              private userService:UserService,
+              private assignmentService:AssignmentService,
+              private cvr:ViewContainerRef,
+              public modal:Modal,
+              private overlay:Overlay) {
+    overlay.defaultViewContainer = cvr;
   }
   loginTeacher(){
 
@@ -120,5 +128,28 @@ export class CoursepageComponent implements OnInit {
   }
 }
 
+  onDelete(mid:string){
+    console.log(mid+' is the id');
+  }
+
+  onEdit(mid:string){
+    this.modal.confirm()
+      .size('lg')
+      .showClose(true)
+      .title('A simple Alert style modal window')
+      .body(`
+            <h4>Alert is a classic (title/body/footer) 1 button modal window that 
+            does not block.</h4>
+            <b>Configuration:</b>
+            <ul>
+                <li>Non"asdfsf"</li>
+                <li>Size large</li>
+                <li>Dismissed with default keyboard key (ESC)</li>
+                <li>Close wth button click</li>
+                <li>HTML content</li>
+            </ul>`)
+      .open();
+    console.log(mid+' is the id');
+  }
 }
 

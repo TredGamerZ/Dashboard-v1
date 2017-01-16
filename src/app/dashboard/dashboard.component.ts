@@ -7,14 +7,14 @@ import {User} from "../models/user";
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers:[UserService]
+  providers:[UserService,LoginService]
 })
 export class DashboardComponent implements OnInit {
 
   mUser:User;
   loggedIn:boolean;
-  constructor(private userService:UserService) {
-
+  constructor(private userService:UserService,private ls:LoginService) {
+    // this.loggedIn = ls.loginCheck();
   }
   loginTeacher(){
 

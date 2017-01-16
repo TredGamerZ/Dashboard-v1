@@ -1,6 +1,6 @@
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import {NgModule, Pipe, PipeTransform} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -13,9 +13,13 @@ import { MycoursesComponent } from './mycourses/mycourses.component';
 import { CoursepageComponent } from './coursepage/coursepage.component';
 import { AssignmentComponent } from './assignment/assignment.component';
 import {FileDropDirective} from "ng2-file-upload";
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
   { path: 'about',      component: AboutComponent },
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'course/:id',      component: CoursepageComponent },
@@ -50,13 +54,19 @@ export class SafeHtmlPipe implements PipeTransform  {
     CoursepageComponent,
     AssignmentComponent,
     FileDropDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    RegisterComponent,
+
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
+    ReactiveFormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
