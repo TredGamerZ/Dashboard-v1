@@ -11,6 +11,7 @@ export class LoginService {
    loggedIn:boolean;
    alert:any;
 
+
   studentLogin(rollno: string, pass:string):boolean{
     if(rollno == "student" && pass== "student")
     {
@@ -72,6 +73,9 @@ export class LoginService {
           else return false;
         }
       );
+  }
+  logout(){
+    localStorage.clear();
   }
   constructor(private http:Http) { }
 

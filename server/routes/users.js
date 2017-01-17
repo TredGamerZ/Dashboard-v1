@@ -95,24 +95,6 @@ router.post('/login', function (req,res,next) {
   else {
     console.log("no error");
 
-    // passport.authenticate('local', function(err, user, info) {
-    //   console.log("Commenced");
-    //   if (err) {
-    //     return res.send(err);
-    //   }
-    //   if (!user) {
-    //     console.log("user not found");
-    //     return res.send('User Not Found');
-    //   }
-    //   req.logIn(user, function(err) {
-    //
-    //     if (err) { return res.send(err);}
-    //
-    //     console.log("User found");
-    //     return res.send(user);
-    //
-    //   });
-    // })
     next();
   }
 },function(req, res, next) {
@@ -124,5 +106,16 @@ router.post('/login', function (req,res,next) {
       return res.send(user.id);
     });
   })(req, res, next);
+});
+
+router.post('/getbyid',function (req,res) {
+  var id = req.body.id;
+  User.getUserById(id, function(err, user) {
+    if(err)
+      res.send('false');
+    else if(user)
+      res.send(user);
+  });
+
 });
 module.exports = router;

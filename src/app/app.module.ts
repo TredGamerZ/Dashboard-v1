@@ -16,13 +16,15 @@ import {FileDropDirective} from "ng2-file-upload";
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { RegisterComponent } from './register/register.component';
+import {AuthGaurdService} from "./services/auth-gaurd.service";
+import {LoginService} from "./services/login.service";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'about',      component: AboutComponent },
-  { path: 'dashboard',      component: DashboardComponent },
-  { path: 'course/:id',      component: CoursepageComponent },
+  { path: 'dashboard',      component: DashboardComponent ,canActivate:[AuthGaurdService]},
+  { path: 'course/:id',      component: CoursepageComponent ,canActivate:[AuthGaurdService] },
   // {
   //   path: 'heroes',
   //   component: HeroListComponent,
@@ -68,7 +70,7 @@ export class SafeHtmlPipe implements PipeTransform  {
     ReactiveFormsModule
 
   ],
-  providers: [],
+  providers: [AuthGaurdService,LoginService],
   bootstrap: [AppComponent]
 })
 

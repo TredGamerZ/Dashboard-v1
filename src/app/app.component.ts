@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnChanges} from '@angular/core';
 import {LoginService} from "./services/login.service";
 
 @Component({
@@ -7,14 +7,24 @@ import {LoginService} from "./services/login.service";
   styleUrls: ['./app.component.css'],
   providers:[LoginService]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit,OnChanges{
   loggedIn:boolean;
 
   constructor(private loginService:LoginService){
-
+    this.loggedIn = this.loginService.loginCheck();
   }
   ngOnInit(){
-    this.loggedIn = true;
+  }
+  ngOnChanges(){
+    this.loggedIn = this.loginService.loginCheck();
+
+  }
+
+  onLogout(){
+    console.log("logged Out");
+    this.loginService.logout();
+    this.loggedIn = this.loginService.loginCheck();
+
   }
 
 }

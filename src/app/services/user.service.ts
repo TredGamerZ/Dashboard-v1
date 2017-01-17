@@ -1,6 +1,9 @@
 // THIS CLASS MAKES FAKE USERS FOR TESETNG AND ALL THE USER SERVICES
 import { Injectable } from '@angular/core';
 import {User} from "../models/user";
+import {Http, RequestOptions, Headers, Response} from "@angular/http";
+import {ObserveOnMessage} from "rxjs/operator/observeOn";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class UserService {
@@ -11,7 +14,7 @@ export class UserService {
   loggedIn:boolean;
 
 
-  constructor() {
+  constructor(private http:Http) {
     this.mStudent = new User('STU1',0,'student','student',['ID101','ID102','ID103'],'https://avatars1.githubusercontent.com/u/9270746?v=3&s=460');
     this.mTeacher = new User('TEU1',1,'teacher','teacher',['ID101','ID102'],'https://avatars0.githubusercontent.com/u/6294544?v=3&s=460');
     //TODO: create getuser
@@ -43,13 +46,21 @@ export class UserService {
   };
 
   loginCheck():boolean{
-
     return this.loggedIn;
     //TODO: check cookies if signed in
   };
 
-  getUser():User{
+  getUserById(id:string){
+    let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+    let options       = new RequestOptions({ headers: headers });
+    return this.http.post("http://localhost:3000/users/getbyid",{'id':id},options)
+      .map((res:Response) => res.json());
+
+  }
+
+  getUser(){
     return this.mUser;
   }
+
 
 }

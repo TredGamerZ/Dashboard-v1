@@ -24,10 +24,10 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a routerLink="/login" >Login</a></li>
-        <li><a routerLink="/register" >Register</a></li>
+        <li><a routerLink="/login" *ngIf="!loggedIn">Login</a></li>
+        <li><a routerLink="/register" *ngIf="!loggedIn">Register</a></li>
         <li><a routerLink="/dashboard" *ngIf="loggedIn">Dashboard</a></li>
-        <li><a (click)="onLogout()" *ngIf="loggedIn">Logout</a></li>
+        <li><a (click)="onLogout()" routerLink="/login" *ngIf="loggedIn">Logout</a></li>
       </ul>
 
     </div>

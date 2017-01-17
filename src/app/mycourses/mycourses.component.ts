@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnChanges} from '@angular/core';
 import {Course} from "../models/course";
 import {CourseService} from "../services/course.service";
 import {UserService} from "../services/user.service";
@@ -13,7 +13,7 @@ import {User} from "../models/user";
   providers:[CourseService,UserService],
   inputs:['user']
 })
-export class MycoursesComponent implements OnInit {
+export class MycoursesComponent implements OnInit,OnChanges {
 
   allcourses:Course[]= [];
   mycourses:Course[]= [];
