@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit,OnChanges {
 
   constructor(private userService:UserService,private ls:LoginService) {
 
+
       userService.getUserById(localStorage.getItem('userId'))
         .subscribe(
         data => {

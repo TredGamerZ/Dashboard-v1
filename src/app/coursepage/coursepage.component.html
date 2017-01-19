@@ -1,26 +1,26 @@
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="well">
-      <div class="container" >
-        <button class="btn btn-success" (click)="loginTeacher()">Login As A Teacher</button>
-        <button class="btn btn-primary" (click)="loginStudent()">Login As A Student</button>
-      </div>
-    </div>
-  </div>
-  <div class="grid-item" *ngIf="loggedIn">
+<div class="container-fluid" *ngIf="isDataAvailable">
+  <!--<div class="row">-->
+    <!--<div class="well">-->
+      <!--<div class="container" >-->
+        <!--<button class="btn btn-success" (click)="loginT eacher()">Login As A Teacher</button>-->
+        <!--<button class="btn btn-primary" (click)="loginStudent()">Login As A Student</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <div class="grid-item" *ngIf="isDataAvailable">
     <div class="container-fluid text-left">
        <div class="col-md-3">
-         <h1>{{mCourseBoard.courseId.toString()}}</h1> <h4>Teacher Name<br><small>id123</small></h4>
+         <h1>{{mCourseBoard.course.code.toString()}}</h1> <h4>{{mCourseBoard.teachersId.name}}<br><small>Course Id: {{mCourseBoard.pageId}}</small></h4>
          <div class="thumbnail">
            <div class="container-fluid ">
               <h3>Announcements</h3>
              <hr>
-             <div class="input-group" *ngIf="mUser.type">
+             <div class="input-group" *ngIf="!mUser.type">
                <input type="text" class="form-control" #announce placeholder="Make An Announcement">
                <span class="input-group-btn">
 
-                <button class="btn btn-default" type="button" (click)="makeAnnouncement(announce.value)">Send</button>
+                <button  class="btn btn-default" type="button" (click)="makeAnnouncement(announce.value)">Send</button>
               </span>
              </div><!-- /input-group -->
              <div class="list-group text-left">
@@ -53,56 +53,59 @@
                 <button class="btn btn-default" type="button" (click)="dropMessage(message.value)">Go!</button>
               </span>
             </div><!-- /input-group -->
-            <div [innerHTML]="item.message | safeHtml" class="well" *ngFor="let item of messages ">
+            <div  class="well" *ngFor="let item of messages " [style.background-color]="ifYourMessage(item.senderId)" style="padding: 0px 10px ">
                           <!--{{item.message}}-->
-              <b><h4 class="text-right">@{{item.id}} {{item.courseId}}</h4></b>
+              <b ><h4 class="text-left" [innerHTML]="item.message | safeHtml" ></h4></b>
+              <p class="text-left"><span >@Your Name</span> <span style="float:right">{{currTime| date:'dd/MM/yyyy @ h:mma'}}</span> </p>
             </div>
         </div>
         </div>
           <div class="thumbnail text-center" *ngIf="discription" >
           <h2><b>Course Discription</b></h2>
           <div class="container-fluid">
-             <p>{{mCourseBoard.description}}</p>
+             <p>{{mCourseBoard.course.description}}</p>
           </div>
         </div>
         <div class="thumbnail text-center" *ngIf="courseStructure" >
           <h2><b>Course Discription</b></h2>
           <div class="container-fluid">
-             <p>{{mCourseBoard.description}}</p>
+             <h3>{{mCourseBoard.course.name}}</h3>
+             <p>{{mCourseBoard.course.semester}}</p>
+             <p>{{mCourseBoard.teachersId.name}}</p>
           </div>
         </div>
 
 
 
     </div>
-      <div class="col-md-3">
-        <ul class="nav nav-pills">
-          <li role="presentation" class="active"><a href="#">My Assignements</a></li>
-          <li role="presentation"><a href="#">My Projects</a></li>
-          <!--<li role="presentation"><a href="#">Messages</a></li>-->
-        </ul>
-        <hr>
-        <div class="panel panel-default"  >
-          <div class="panel-body" *ngIf="!mUser.type " >
-            <!--<h3>Assignment Name</h3>-->
-            <!--<p>Due Date</p>-->
-            <!--<button class="btn btn-info btn-sm">Submit</button>-->
-            <!--<button class="btn btn-sm">Download</button>-->
+      <!--<div class="col-md-3">-->
+        <!--<ul class="nav nav-pills">-->
+          <!--<li role="presentation" class="active"><a href="#">My Assignements</a></li>-->
+          <!--<li role="presentation"><a href="#">My Projects</a></li>-->
+          <!--&lt;!&ndash;<li role="presentation"><a href="#">Messages</a></li>&ndash;&gt;-->
+        <!--</ul>-->
+        <!--<hr>-->
+        <!--<div class="panel panel-default"  >-->
+          <!--<div class="panel-body" *ngIf="!mUser.type " >-->
+            <!--&lt;!&ndash;<h3>Assignment Name</h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<p>Due Date</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button class="btn btn-info btn-sm">Submit</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button class="btn btn-sm">Download</button>&ndash;&gt;-->
 
-          <app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" >
-          </app-assignment >
-        </div>
-          <h3>Add Assignments</h3>
-          <div class="panel-body" *ngIf="mUser.type" >
-            <div class="thumbnail">
+          <!--<app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" >-->
+          <!--</app-assignment >-->
+        <!--</div>-->
+          <!--<h3>Add Assignments</h3>-->
+          <!--<div class="panel-body" *ngIf="mUser.type" >-->
+            <!--<div class="thumbnail">-->
 
-            </div>
-            <app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" (onEdit)="onEdit($event)" (onDelete)="onDelete($event)">
-            </app-assignment >
-          </div>
+            <!--</div>-->
+            <!--<app-assignment  *ngFor="let item of assignments" [assignment] = "item" [userType]="mUser.type" (onEdit)="onEdit($event)" (onDelete)="onDelete($event)">-->
+            <!--</app-assignment >-->
+          <!--</div>-->
 
-        </div>
-  </div>
+        <!--</div>-->
+  <!--</div>-->
 </div>
   </div>
 </div>

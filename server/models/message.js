@@ -13,4 +13,11 @@ var MessageSchema = mongoose.Schema({
 
 });
 
+
+
 var Message = module.exports = mongoose.model('Message',MessageSchema);
+
+module.exports.createMessage = function (message,callback) {
+  message.save();
+  return message._id;
+};

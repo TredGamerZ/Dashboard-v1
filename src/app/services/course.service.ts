@@ -33,30 +33,48 @@ export class CourseService {
       .map((res:Response) => res.json());
   }
 
+  getAllBaseCourse():Observable<any>{
+    return this.http.post('http://localhost:3000/api/getAllBase','')
+      .map((res:Response) => res.json());
+  }
+
   createBaseCoures(tid:string,cid:string){
     let headers      = new Headers({ 'Content-Type': 'application/json' });
     let options       = new RequestOptions({ headers: headers });
     return this.http.post('http://localhost:3000/api/saveBaseCourse',{"tid":tid,"cid":cid},options)
       .map((res:Response)=>{res.text()});
   }
-
+  joinBaseCourse(uid:string,pid:string){
+    let headers      = new Headers({ 'Content-Type': 'application/json' });
+    let options       = new RequestOptions({ headers: headers });
+    return this.http.post('http://localhost:3000/api/joinBaseCourse',{"uid":uid,"pid":pid},options)
+      .map((res:Response)=>{res.text()});
+  }
   getMyCourses(tid:string):Observable<any>{
     let headers      = new Headers({ 'Content-Type': 'application/json' });
     let options       = new RequestOptions({ headers: headers });
 
     return this.http.post('http://localhost:3000/api/getBaseCourse',{"tid":tid},options)
       .map((res:Response)=> res.json());
-
-    // for(let i:number=0; i<this.mAllCourses.length;i++){
-    //   for(let j:number=0;j<courseArray.length;j++){
-    //     if(this.mAllCourses[i].ID.toString()==courseArray[j]){
-    //       this.mMyCourses.push(this.mAllCourses[i]);
-    //     }
-    //   }
-    // }
-
   }
 
+  getCourseById(pid:string):Observable<any>{
+    let headers      = new Headers({ 'Content-Type': 'application/json' });
+    let options       = new RequestOptions({ headers: headers });
+
+    return this.http.post('http://localhost:3000/api/getBaseCourseById',{"pid":pid},options)
+      .map((res:Response)=> res.json());
+  }
+  addMessage(uid:string,message:string,time:string,pid:string){
+    let headers      = new Headers({ 'Content-Type': 'application/json' });
+    let options       = new RequestOptions({ headers: headers });
+
+    this.http.post('http://localhost:3000/api/addMessage',{"pid":pid,"uid":uid,"time":time,"message":message},options)
+      .map((res:Response)=> res.json()).subscribe(
+      data =>{ console.log('Added Successfully')},
+      err=>{},
+    )
+  }
 
   // getCourseWithId(id:string):Course{
   //   let mc:Course;

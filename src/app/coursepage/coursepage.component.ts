@@ -10,62 +10,105 @@ import {AssignmentService} from "../services/assignment.service";
 import {Assignment} from "../models/Assignment";
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
+import {CourseService} from "../services/course.service";
+import {LoginService} from "../services/login.service";
+import {combineAll} from "rxjs/operator/combineAll";
+import {init} from "protractor/built/launcher";
+import {multicast} from "rxjs/operator/multicast";
 
 
 @Component({
   selector: 'app-coursepage',
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css'],
-  providers:[CourseboardService,UserService,AssignmentService],
+  providers:[CourseboardService,UserService,LoginService,AssignmentService,CourseService],
 
 })
 
 export class CoursepageComponent implements OnInit {
 
-  mCourseBoard:Board;
+  mCourseBoard:any;
   messages:Message[]=[];
   mUser:User;
+
   loggedIn:boolean= false;
   discription:boolean= false;
   courseStructure:boolean= false;
   disscussion:boolean= true;
+  currTime: Date = new Date();
+
   cid:string;
   assignments: Assignment[];
-  constructor(private route: ActivatedRoute,
-              private cbs:CourseboardService,
-              private userService:UserService,
-              private assignmentService:AssignmentService,
-              private cvr:ViewContainerRef,
-              public modal:Modal,
-              private overlay:Overlay) {
+  isDataAvailable:boolean =false;
+
+  dataCheck:boolean=false;
+  constructor(
+    private route: ActivatedRoute,
+    private cbs:CourseboardService,
+    private userService:UserService,
+    private assignmentService:AssignmentService,
+    private cvr:ViewContainerRef,
+    public modal:Modal,
+    private overlay:Overlay,
+    private loginService:LoginService,
+    private courseService:CourseService)
+  {
+    this.isDataAvailable =false;
     overlay.defaultViewContainer = cvr;
-  }
-  loginTeacher(){
+    this.loggedIn = this.loginService.loginCheck();
 
-    if(this.userService.facultyLogin('teacher','teacher')){
-      this.mUser =this.userService.getUser();
-      this.loggedIn = this.userService.loggedIn;
-      console.log(this.mUser);
-    }
 
   }
-  loginStudent(){
-    if(this.userService.studentLogin('student','student')){
-      this.mUser = this.userService.getUser();
-      this.loggedIn = this.userService.loggedIn;
-      // console.log(this.loggedIn);
+
+
+  initiatePage(id:string){
+
+    for(var i=0;i<this.mUser.courses.length;i++){
+      if(id == this.mUser.courses[i]){
+        this.isDataAvailable= true;
+      }
     }
   }
   ngOnInit() {
-    this.cid = this.route.snapshot.params['id'];
-    // this.cbs = new CourseboardService(id+'');
-    this.assignments = this.assignmentService.getAssignments(this.cid);
 
-    this.cbs.startService(this.cid);
-    this.mCourseBoard = this.cbs.getObject();
-    this.messages = this.mCourseBoard.boardMesssage;
-    this.mUser = this.userService.getUser();
-    console.log(this.mUser);
+
+    this.userService.getUserById(localStorage.getItem('userId'))
+      .subscribe(
+        data => {
+          if(data=='false'){
+            console.log("Server error");
+            return false;
+          }
+          // console.log(data);
+          // console.log("User Recived");
+
+          this.mUser = data;
+          // console.log(this.mUser);
+
+          this.cid = this.route.snapshot.params['id'];
+
+          this.courseService.getCourseById(this.cid)
+            .subscribe(
+              data=>{
+                this.mCourseBoard = data[0];
+                console.log("RECIVED BOARD");
+                console.log(data);
+                this.isDataAvailable=true;
+              },
+              err=>{console.log(err)}
+            );
+
+
+        },
+        err =>{console.log(err)}
+      );
+
+
+
+    // ASSIGNMENT SERVICE ================================================
+    // this.assignments = this.assignmentService.getAssignments(this.cid);
+
+    // console.log(this.mUser);
   }
 
   toggleThis(i:number):void{
@@ -94,6 +137,7 @@ export class CoursepageComponent implements OnInit {
 
     if(this.validateYouTubeUrl(str)==false){
       let message:Message = new Message('now',str,this.cid,this.mUser._id,false);
+      this.courseService.addMessage(this.mUser._id,str,this.currTime.toString(),this.mCourseBoard.pageId);
       this.messages.push(message);
     }
     else if(this.validateYouTubeUrl(str)){
@@ -102,6 +146,12 @@ export class CoursepageComponent implements OnInit {
       this.messages.push(message);
     }
 
+  }
+
+  ifYourMessage(id:string){
+    if(id==this.mUser._id){
+      return '#d2e8d2';
+    }
   }
 
 

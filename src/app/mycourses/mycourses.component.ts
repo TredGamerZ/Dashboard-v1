@@ -6,6 +6,7 @@ import {UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {User} from "../models/user";
 import {cpus} from "os";
+import {userInfo} from "os";
 
 @Component({
   selector: 'app-mycourses',
@@ -17,7 +18,7 @@ import {cpus} from "os";
 export class MycoursesComponent implements OnInit,OnChanges {
 
   allcourses:Course[]= [];
-  mycourses:Course[]= [];
+  mycourses:Array<Object> = [];
   user:User;
   showAllCourse:boolean = false;
   alert:any;
@@ -32,23 +33,39 @@ export class MycoursesComponent implements OnInit,OnChanges {
 
   }
   onAddCourse(id:string):void{
+    if(!this.user.type) {
+      let cid: string = id;
+      let tid: string = this.user._id;
 
-    let cid:string = id;
-    let tid:string = this.user._id;
-
-    this.courseService.createBaseCoures(tid,cid).subscribe(
-      data => {
-        this.alert = data;
+      this.courseService.createBaseCoures(tid, cid).subscribe(
+        data => {
+          this.alert = data;
 
           console.log("Added Successfully");
 
-      },
-      err => {console.log(err)},
-    );
-    // let mc:Course = this.courseService.getCourseWithId(id);
-    // this.mycourses.push(mc);
-    // this.userService.addCourse(id);
+        },
+        err => {
+          console.log(err)
+        },
+      );
+    }
 
+    else {
+      let cid: string = id;
+      let tid: string = this.user._id;
+
+      this.courseService.joinBaseCourse(tid, cid).subscribe(
+        data => {
+          this.alert = data;
+
+          console.log("Joined Successfully");
+
+        },
+        err => {
+          console.log(err)
+        },
+      );
+    }
   }
   onCourse(id:string):void{
     this.router.navigate(['/course', id] );
@@ -60,11 +77,13 @@ export class MycoursesComponent implements OnInit,OnChanges {
         .subscribe(
           data=>{
             let ar:any = data;
-            console.log(data);
-            for(var i=0;i<ar.length;i++){
-              this.mycourses.push(ar[i].course);
-            }
-            console.log(this.mycourses);
+            console.log("Recived My Course")
+            console.log(ar);
+            // for(var i=0;i<ar.length;i++){
+            //   this.mycourses.push(ar[i].course);
+            // }
+            // console.log(this.mycourses);
+            this.mycourses = ar;
           },
           err=>{console.log(err)}
         );
@@ -82,6 +101,31 @@ export class MycoursesComponent implements OnInit,OnChanges {
 
 
 
+    }
+    else if(this.user.type == 1){
+
+      for(var i = 0 ; i< this.user.courses.length; i++){
+        this.courseService.getCourseById(this.user.courses[i]).subscribe(
+          data =>{
+            let ar = data;
+            console.log(ar);
+            this.mycourses.push(ar[0]);
+          },
+          err =>{
+            console.log(err);
+          }
+        )
+      }
+      this.courseService.getAllBaseCourse()
+        .subscribe(
+          data =>{
+
+            this.allcourses = data;
+            console.log("Courses Received");
+            console.log(this.allcourses);
+          },
+          err =>{console.log(err)}
+        );
     }
 
   }

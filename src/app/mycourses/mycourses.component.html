@@ -3,13 +3,14 @@
 </p>
 <div class="flex-container">
   <div *ngFor="let item of mycourses" class="thumbnail card">
-  <button class="btn  btn-success btn-block" (click)="onCourse(item.code.toString())">
-      <h4>{{item.code.toString()}}</h4>
+  <button class="btn  btn-success btn-block" (click)="onCourse(item.pageId.toString())">
+      <h4>{{item.course.code.toString()}}</h4>
   </button>
     <hr >
-    <p><b>{{item.name.toString()}}</b></p>
+    <p><b>{{item.course.name.toString()}}</b></p>
+    <p *ngIf="user.type"><b>{{item.teachersId.name.toString()}}</b></p>
 
-      <p> {{item.description.toString()}}</p>
+      <p> {{item.course.description.toString()}}</p>
 
   </div>
   <div class="thumbnail card">
@@ -18,7 +19,7 @@
     </button>
   </div>
 </div>
-
+<div *ngIf="!user.type">
 <div class="container-fluid" *ngIf="showAllCourse">
   <p>All Courses</p>
   <div class="container-fluid" >
@@ -30,4 +31,21 @@
       </div>
     </div>
   </div>
+</div>
+</div>
+
+<div *ngIf="user.type">
+<div class="container-fluid" *ngIf="showAllCourse">
+  <p>All Courses</p>
+  <div class="container-fluid" >
+    <div class="col-md-2" *ngFor="let item of allcourses">
+      <div class="container-fluid" #ml >
+        <h3>{{item.course.code.toString()}}</h3>
+        <p>{{item.course.name.toString()}}</p>
+        <p>{{item.teachersId.name.toString()}}</p>
+        <button class="btn btn-primary btn-sm"  (click)="onAddCourse(item.pageId.toString());ml.remove()">+ Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
