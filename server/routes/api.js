@@ -112,6 +112,27 @@ router.post('/getBaseCourseById',function (req,res) {
   })
 });
 
+router.post('/getMessages',function (req,res) {
+  var pid = req.body.pid;
+  BaseCoures.find({'pageId':pid})
+    .populate(
+      {
+        path:'messages',
+        populate:{path:'senderId'}
+      }
+    )
+    .select('messages')
+    .exec(function (err,doc) {
+      if(err)
+        res.send("1");
+      else
+      {
+        console.log(doc);
+        res.send(doc);
+      }
+    })
+});
+
 router.post('/getAllBase',function (req,res) {
   BaseCoures.find()
     .populate('course teachersId')
@@ -129,10 +150,10 @@ router.post('/getAllBase',function (req,res) {
 router.post('/addMessage',function (req,res) {
   var pid = req.body.pid;
   var uid = req.body.uid;
-  var message = req.body.messge;
+  var message = req.body.message;
   var time = req.body.time;
   var newMessage = new Message({
-    'sendersId':uid,
+    'senderId':uid,
     'message':message,
     'date':time
   });

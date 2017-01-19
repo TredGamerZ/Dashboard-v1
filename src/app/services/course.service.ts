@@ -75,7 +75,13 @@ export class CourseService {
       err=>{},
     )
   }
+  getMessages(pid:string):Observable<any>{
+    let headers      = new Headers({ 'Content-Type': 'application/json' });
+    let options       = new RequestOptions({ headers: headers });
 
+    return this.http.post('http://localhost:3000/api/getMessages',{'pid':pid},options)
+      .map((res:Response)=> res.json());
+  }
   // getCourseWithId(id:string):Course{
   //   let mc:Course;
   //   for(let i:number=0; i<this.mAllCourses.length;i++){

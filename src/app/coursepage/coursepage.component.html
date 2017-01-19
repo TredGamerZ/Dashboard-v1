@@ -53,10 +53,12 @@
                 <button class="btn btn-default" type="button" (click)="dropMessage(message.value)">Go!</button>
               </span>
             </div><!-- /input-group -->
-            <div  class="well" *ngFor="let item of messages " [style.background-color]="ifYourMessage(item.senderId)" style="padding: 0px 10px ">
+            <div *ngFor="let item of messages ">
+            <div  class="well"  [style.background-color]="ifYourMessage(item.senderId._id)" style="padding: 0px 10px ">
                           <!--{{item.message}}-->
               <b ><h4 class="text-left" [innerHTML]="item.message | safeHtml" ></h4></b>
-              <p class="text-left"><span >@Your Name</span> <span style="float:right">{{currTime| date:'dd/MM/yyyy @ h:mma'}}</span> </p>
+              <p class="text-left"><span >@{{item.senderId.name}}</span> <span style="float:right">{{item.date | date:'dd/MM/yyyy @ h:mma'}}</span> </p>
+            </div>
             </div>
         </div>
         </div>

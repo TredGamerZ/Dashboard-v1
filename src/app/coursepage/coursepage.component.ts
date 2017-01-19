@@ -28,7 +28,7 @@ import {multicast} from "rxjs/operator/multicast";
 export class CoursepageComponent implements OnInit {
 
   mCourseBoard:any;
-  messages:Message[]=[];
+  messages:Array<Object>=[];
   mUser:User;
 
   loggedIn:boolean= false;
@@ -99,6 +99,15 @@ export class CoursepageComponent implements OnInit {
             );
 
 
+          this.courseService.getMessages(this.cid).subscribe(
+            data=>{
+              this.messages = data[0].messages;
+              console.log(this.messages);
+            },
+            err=>{console.log(err)}
+          );
+
+
         },
         err =>{console.log(err)}
       );
@@ -136,9 +145,18 @@ export class CoursepageComponent implements OnInit {
   dropMessage(str:string):void{
 
     if(this.validateYouTubeUrl(str)==false){
-      let message:Message = new Message('now',str,this.cid,this.mUser._id,false);
+      // let message:Message = new Message('now',str,this.cid,this.mUser._id,false,this.currTime);
+
       this.courseService.addMessage(this.mUser._id,str,this.currTime.toString(),this.mCourseBoard.pageId);
-      this.messages.push(message);
+
+      this.messages.push({
+        'message':str,
+        'senderId': {
+          '_id':this.mUser._id,
+          'name':this.mUser.name,
+        },
+        'date':this.currTime,
+      });
     }
     else if(this.validateYouTubeUrl(str)){
         let url = this.validateYouTubeUrl(str);
@@ -149,7 +167,7 @@ export class CoursepageComponent implements OnInit {
   }
 
   ifYourMessage(id:string){
-    if(id==this.mUser._id){
+    if(id == this.mUser._id){
       return '#d2e8d2';
     }
   }
