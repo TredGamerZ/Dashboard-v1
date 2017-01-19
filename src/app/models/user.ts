@@ -4,7 +4,7 @@
 export class User{
 
   constructor(id: string, type: number, username: string, password: string, courses: string[],imgUrl:string) {
-    this.id = id;
+    this._id = id;
     this.type = type;
     this.username = username;
     this.password = password;
@@ -13,7 +13,7 @@ export class User{
   }
 
 
-  id:string;
+  _id:string;
   type:number;
   name:string;
   imgUrl:string;

@@ -93,12 +93,12 @@ export class CoursepageComponent implements OnInit {
   dropMessage(str:string):void{
 
     if(this.validateYouTubeUrl(str)==false){
-      let message:Message = new Message('now',str,this.cid,this.mUser.id,false);
+      let message:Message = new Message('now',str,this.cid,this.mUser._id,false);
       this.messages.push(message);
     }
     else if(this.validateYouTubeUrl(str)){
         let url = this.validateYouTubeUrl(str);
-      let message:Message = new Message('now',url,this.cid,this.mUser.id,true);
+      let message:Message = new Message('now',url,this.cid,this.mUser._id,true);
       this.messages.push(message);
     }
 

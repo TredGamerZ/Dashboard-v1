@@ -4,37 +4,15 @@ import {isNumber} from "util";
  */
 
 export class Course{
-  constructor(Code: string, ID: string, description: string) {
-    this._Code = Code;
-    this._ID = ID;
-    this._description = description;
+  constructor(Code: string, ID: string, description: string,sem : number) {
+    this.code = Code;
+    // this._ID = ID;
+    this.description = description;
+    this.semester = sem;
   }
-  get Code(): string {
-    return this._Code;
-  }
-
-  set Code(value: string) {
-    this._Code = value;
-  }
-
-  get ID(): string {
-    return this._ID;
-  }
-
-  set ID(value: string) {
-    this._ID = value;
-  }
-
-  get description(): string {
-    return this._description;
-  }
-
-  set description(value: string) {
-    this._description = value;
-  }
-  private _Code : string;
-  private _ID :string;
-  private _description: string;
-
+  private code : string;
+  // private ID :string;
+  private description: string;
+  private semester:number;
 
 }
