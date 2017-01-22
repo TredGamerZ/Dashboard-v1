@@ -19,21 +19,17 @@
              <div class="input-group" *ngIf="!mUser.type">
                <input type="text" class="form-control" #announce placeholder="Make An Announcement">
                <span class="input-group-btn">
-
+                 <button class="btn btn-primary" (click)="emitMessage()">EMIT SOCKET</button>
                 <button  class="btn btn-default" type="button" (click)="makeAnnouncement(announce.value)">Send</button>
               </span>
              </div><!-- /input-group -->
-             <div class="list-group text-left">
-               <a class="list-group-item ">
+             <div class="list-group text-left" *ngFor="let item of announces">
+               <a class="list-group-item " >
 
-                 <p class="list-group-item-text"><b>@Teacher</b> No Class Tomorrow </p>
-
-               </a>
-               <a class="list-group-item ">
-
-                 <p class="list-group-item-text"><b>@Teacher</b> Read Paper for the next class </p>
+                 <p class="list-group-item-text" ><b>@{{mCourseBoard.teachersId.name}}</b> {{item}} </p>
 
                </a>
+
              </div>
            </div>
          </div>

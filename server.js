@@ -15,13 +15,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+
 mongoose.connect('mongodb://localhost/myapp');
 var db = mongoose.connection;
 // Get our API routes
 const api = require('./server/routes/api');
 const users = require('./server/routes/users');
 
-const app =  express();
+var app =  express();
+
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -39,6 +41,7 @@ app.use(session({
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // Express Validator
 app.use(expressValidator({
@@ -82,17 +85,48 @@ app.get('*', function(req, res){
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || '3000';
+var port = process.env.PORT || '3000';
 app.set('port', port);
-
+var pageId;
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
-
+var server = http.createServer(app);
+var io = require('socket.io')(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port, function(){
   console.log(`API running on localhost:${port}`);
+});
+
+
+
+io.on('connection',function (socket) {
+  console.log("A user is connected");
+  socket.on('disconnect', function() {
+    console.log('user disconnected');
+  });
+  socket.on('message', function(msg){
+    console.log('message: ' + msg);
+    // io.emit('message',"VOILABITCH");
+
+  });
+
+
+
+  //NEW ID ========================
+//  ==============================
+
+  socket.on('idOf',(msg)=> {
+    pageId = msg;
+    console.log(pageId);
+
+    socket.join(pageId);
+    io.to(pageId).emit('announce',pageId);
+
+    socket.on('check',function () {
+      io.to(pageId).emit('announce','dumb Bitch');
+    });
+  });
 });

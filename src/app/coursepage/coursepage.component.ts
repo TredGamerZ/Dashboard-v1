@@ -1,20 +1,16 @@
-import {Component, OnInit, PipeTransform, Pipe, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, PipeTransform, Pipe, ViewContainerRef, OnChanges} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CourseboardService} from "../services/courseboard.service";
-import {Board} from "../models/board";
 import {Message} from "../models/message";
 import {User} from "../models/user";
 import {UserService} from "../services/user.service";
-// ModalModule
 import {AssignmentService} from "../services/assignment.service";
 import {Assignment} from "../models/Assignment";
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 import {CourseService} from "../services/course.service";
 import {LoginService} from "../services/login.service";
-import {combineAll} from "rxjs/operator/combineAll";
-import {init} from "protractor/built/launcher";
-import {multicast} from "rxjs/operator/multicast";
+import * as io from 'socket.io-client';
 
 
 @Component({
@@ -25,7 +21,7 @@ import {multicast} from "rxjs/operator/multicast";
 
 })
 
-export class CoursepageComponent implements OnInit {
+export class CoursepageComponent implements OnInit,OnChanges {
 
   mCourseBoard:any;
   messages:Array<Object>=[];
@@ -36,10 +32,12 @@ export class CoursepageComponent implements OnInit {
   courseStructure:boolean= false;
   disscussion:boolean= true;
   currTime: Date = new Date();
-
+  socket;
   cid:string;
   assignments: Assignment[];
   isDataAvailable:boolean =false;
+
+  announces:Array<string>=['No class on monday','Read papers on biofuels'];
 
   dataCheck:boolean=false;
   constructor(
@@ -56,6 +54,8 @@ export class CoursepageComponent implements OnInit {
     this.isDataAvailable =false;
     overlay.defaultViewContainer = cvr;
     this.loggedIn = this.loginService.loginCheck();
+
+
 
 
   }
@@ -94,6 +94,16 @@ export class CoursepageComponent implements OnInit {
                 console.log("RECIVED BOARD");
                 console.log(data);
                 this.isDataAvailable=true;
+
+                this.socket=io();
+                this.socket.emit('idOf',this.mCourseBoard.pageId);
+
+                this.socket.on('announce',(msg) =>{
+                  // this.announces.push(msg);
+                  console.log(msg);
+                  this.announces.push(msg)
+                });
+
               },
               err=>{console.log(err)}
             );
@@ -113,13 +123,20 @@ export class CoursepageComponent implements OnInit {
       );
 
 
-
     // ASSIGNMENT SERVICE ================================================
     // this.assignments = this.assignmentService.getAssignments(this.cid);
 
     // console.log(this.mUser);
   }
+  emitMessage(){
+    // this.socket.emit("message",'VOILA BITCHES');
+    this.socket.emit('check');
 
+  }
+  //
+  // pushAnnouncement(msg:string){
+  //   this.announces.push(msg);
+  // }
   toggleThis(i:number):void{
     if(i==1){
       this.discription = true;
@@ -219,5 +236,9 @@ export class CoursepageComponent implements OnInit {
       .open();
     console.log(mid+' is the id');
   }
+
+  ngOnChanges(){
+
+}
 }
 
